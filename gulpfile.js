@@ -2,6 +2,7 @@ var gulp = require('gulp');
 var pump = require('pump');
 var changed = require('gulp-changed');
 var cache = require('gulp-cached');
+var connect = require('gulp-connect');
 
 gulp.task('default', function() {
   // place code for your default task here
@@ -25,6 +26,7 @@ gulp.task('js:compress', function (cb) {
         changed(dist),
         uglify(),
         gulp.dest(dist),
+        connect.reload(),
     ],
     cb
   );
@@ -60,6 +62,7 @@ gulp.task('css:clean', function (cb) {
         }),
         cleanCSS({compatibility: 'ie8'}),
         gulp.dest(dist),
+        connect.reload(),
     ],
     cb
   );
@@ -79,14 +82,11 @@ gulp.task('css:watch', function() {
  */
 
 
-gulp.task('live-server', function() {
-  var gls = require('gulp-live-server');
-  //3. serve multi folders at custom port
-  var server = gls.static(['public'], 8088);
-  server.start();
-  //use gulp.watch to trigger server actions(notify, start or stop)
-  gulp.watch(['public/dist/js/*.js', 'public/dist/css/*.css', 'public/index.html'], function (file) {
-    server.notify.apply(server, [file]);
+gulp.task('connect', function() {
+  connect.server({
+    port: 8088,
+    root: 'public',
+    livereload: true
   });
 });
 
@@ -101,7 +101,7 @@ gulp.task('watch', ['js:watch', 'css:watch']);
 
 gulp.task('build:development', ['js:compress', 'css:clean']);
 
-gulp.task('development', ['build:development', 'live-server', 'watch']);
+gulp.task('development', ['build:development', 'connect', 'watch']);
 
 
 gulp.task('build:production', ['js:compress', 'css:clean']);
