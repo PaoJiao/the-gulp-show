@@ -1,0 +1,27 @@
+#app {
+    border-radius: 50px;
+    h1 {
+        color: red;
+        font-size: 18px;
+    }
+    i {
+        color: blue;
+    }
+}
+
+
+/**
+ * Test for gulp-autoprefixer
+ */
+
+
+@keyframes ExampleAnimation {
+    0% { left: 0; }
+    50% { left: 200px; }
+    100% { left: 20px; }
+}
+
+.example.is-animating {
+    // -webkit-animation: ExampleAnimation 2s; /* Chr, Saf */
+    animation: ExampleAnimation 2s; /* IE >9, Fx >15, Op >12.0 */
+}
